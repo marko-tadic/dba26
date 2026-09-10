@@ -1,0 +1,35 @@
+-- A) Hur många böcker finns det totalt?
+SELECT COUNT(e.exemplar_id) AS totalt_antal_böcker
+FROM exemplar e
+
+-- B) Lista alla låntagare
+-- beroende på definitionen låntagare har jag alternativ 1 (personer som lånat)
+SELECT 
+    m.medlemskaps_id,
+    m.förnamn,
+    t.transaktions_id,
+    t.medlemskaps_id
+FROM medlem m
+JOIN
+låntransaktion t ON m.medlemskaps_id = t.medlemskaps_id
+
+-- alternativ 2 (alla medlemmar)
+SELECT medlemskaps_id, förnamn, efternamn FROM medlem
+
+-- C) Lista alla unika böcker
+SELECT DISTINCT titel, författare, isbn_nummer 
+    FROM bok
+
+-- D) [BONUS] Lista alla böcker som är utlånade 
+SELECT 
+    b.titel,
+    b.isbn_nummer AS bok_ISBN,
+    le.lånade_exemplar_id AS utlånade_id,
+    e.exemplar_id AS fysiskt_exemplar_id,
+    le.returdatum
+FROM bok b
+INNER JOIN exemplar e 
+    ON b.isbn_nummer = e.i<sbn_nummer
+INNER JOIN lånade_exemplar le 
+    ON e.exemplar_id = le.exemplar_id
+WHERE le.returdatum IS NULL;

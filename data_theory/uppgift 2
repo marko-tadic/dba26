@@ -1,0 +1,52 @@
+-- Korrigerade ordningen så att det går att kopiera + klistra allting direkt i Aiven.io
+
+CREATE TABLE IF NOT EXISTS bok (
+    ISBN_nummer INTEGER PRIMARY KEY,
+    titel VARCHAR(100) NOT NULL,
+    författare VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS exemplar (
+    exemplar_id SERIAL PRIMARY KEY,
+    ISBN_nummer INTEGER,
+        CONSTRAINT fk_ISBN_nummer
+            FOREIGN KEY (ISBN_nummer)
+            REFERENCES Bok (ISBN_nummer)
+);
+
+CREATE TABLE IF NOT EXISTS medlem (
+    medlemskaps_id SERIAL PRIMARY KEY,
+    förnamn VARCHAR(100) NOT NULL,
+    efternamn VARCHAR(100) NOT NULL,
+    telefonnummer VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS låntransaktion (
+    transaktions_id SERIAL PRIMARY KEY,
+    medlemskaps_id INTEGER,
+    återlämningsdatum DATE,
+    CONSTRAINT fk_medlemskaps_id
+        FOREIGN KEY (medlemskaps_id)
+        REFERENCES medlem (medlemskaps_id)
+);
+
+CREATE TABLE IF NOT EXISTS exemplar (
+    exemplar_id SERIAL PRIMARY KEY,
+    ISBN_nummer INTEGER,
+        CONSTRAINT fk_ISBN_nummer
+            FOREIGN KEY (ISBN_nummer)
+            REFERENCES Bok (ISBN_nummer)
+);
+
+CREATE TABLE IF NOT EXISTS lånade_exemplar (
+    lånade_exemplar_id SERIAL PRIMARY KEY,
+    transaktions_id INTEGER,
+    exemplar_id INTEGER,
+    returdatum DATE NULL,
+        CONSTRAINT fk_transaktions_id
+            FOREIGN KEY (transaktions_id)
+            REFERENCES låntransaktion (transaktions_id),
+        CONSTRAINT fk_exemplar_id
+            FOREIGN KEY (exemplar_id)
+            REFERENCES exemplar (exemplar_id)
+);

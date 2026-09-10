@@ -1,0 +1,40 @@
+-- LLM för att generera hälften, resten hittade jag på själv.
+INSERT INTO medlem (förnamn, efternamn, telefonnummer) VALUES
+('Johan', 'Andersson', '070-1234567'),
+('Maria', 'Karlsson', '073-9876543'),
+('Ahmed', 'Hassan', '076-5551234'),
+('Emma', 'Nilsson', '072-4448899'),
+('Linnea', 'Lindqvist', '079-3332211'),
+('Johannes', 'Johansson', '073-2246622'),
+('Elise', 'Persson', '070-4024040'),
+('Greger', 'Larsson', '076-2020022'),
+('Andreas', 'Lindgren', '072-4044004');
+
+INSERT INTO låntransaktion (medlemskaps_id, återlämningsdatum) VALUES
+(1, '2026-10-09'), 
+(2, '2026-09-01'), 
+(3, '2026-10-15'), 
+(4, '2026-08-20');
+
+-- ISBN_nummer är förkortade för att passa INTEGER. Efter sökning på internet så hittade jag att det gick att lösa med BIGINT alternativt VARCHAR(13) men vet inte vad det har för påverkan på databasen förutom utrymme?
+INSERT INTO bok (isbn_nummer, titel, författare) VALUES 
+(54321, 'Kallocain', 'Karin Boye'),
+(98765, 'Män som hatar kvinnor', 'Stieg Larsson'),
+(12345, 'Utvandrarna', 'Vilhelm Moberg'),
+(67890, 'Processen', 'Franz Kafka');
+
+INSERT INTO exemplar (isbn_nummer) VALUES
+(54321),
+(54321),
+(54321),              
+(98765),
+(98765),               
+(12345),
+(67890);
+
+INSERT INTO lånade_exemplar (transaktions_id, exemplar_id, returdatum) VALUES
+(1, 1, NULL), 
+(1, 6, NULL),
+(2, 4, NULL),
+(3, 7, NULL),
+(4, 2, '2026-08-18');
